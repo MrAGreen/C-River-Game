@@ -179,9 +179,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Feedback (DO NOT EDIT).cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="..\..\..\c+++++\c-real-one\2024Project\Feedback (DO NOT EDIT).cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Rivers.cpp" />
     <ClCompile Include="Source %28DO NOT EDIT%29.cpp">

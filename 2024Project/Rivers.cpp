@@ -1,13 +1,8 @@
 #include "Rivers.h"
 
-//•	Modify the getContinent() function so that is operates in O(k) time, 
-// where k is the length of the river string in characters.You should do this without using boost or any other 3rd party library.
 
-
-//There should be no global variables, excessively long functions, excessive nesting or repetition. 
-// Code should be easy to maintain, readable, extendable and as simple as it can be with inclusion of additional templates, 
-// classes and/or functions where sensible and useful. This mark will be based on the overall impression of the tutor.
 Rivers::Rivers(const std::vector<std::string>& filenames){
+	firstGeneration = true;
 	myMode = 2;
 	std::mutex mutex;
 	std::random_device rd;
@@ -32,19 +27,14 @@ void Rivers::fileRead(std::string filenames, std::mutex& mutex) {
 			std::vector<std::string> vec;
 			while (getline(file, r)) {
 				mutex.lock();
-				//maybe make the second word to capitalises too
 				cont[0] = toupper(cont[0]);
 				rivers[r] = cont;
 				vec.push_back(r);
 				mutex.unlock();
-
-				std::cout << filenames;
-
 		} 
 		ContWeight[cont] = vec;		
 	}
 }
-
 
 std::discrete_distribution<> Rivers::modeOne() {
 	std::vector<double> weights;
@@ -55,6 +45,7 @@ std::discrete_distribution<> Rivers::modeOne() {
 	std::discrete_distribution<> dis(weights.begin(), weights.end());
 	return dis;
 }
+
 std::discrete_distribution<> Rivers::modeTwo() {
 
 	std::vector<double> weights;
@@ -65,8 +56,8 @@ std::discrete_distribution<> Rivers::modeTwo() {
 	std::discrete_distribution<> dis(weights.begin(), weights.end());
 	return dis;
 }
+
 std::discrete_distribution<> Rivers::modeThree() {
-	usedContinent;
 	std::vector<double> weights;
 	for (auto& i : ContWeight)
 	{
@@ -80,8 +71,10 @@ std::discrete_distribution<> Rivers::modeThree() {
 	std::discrete_distribution<> dis(weights.begin(), weights.end());
 	return dis;
 }
+
 std::string Rivers::newRandomRiver() {
 
+	//declare my distibution
 	std::discrete_distribution<> dis;
 
 	switch (myMode) {
@@ -94,20 +87,30 @@ std::string Rivers::newRandomRiver() {
 		break;
 	}
 	case 3: {
-		dis = modeThree();
-		break;
-	}
+		//the first generation uses mode 2 so that the river is randomly generated, then we set
+		//the mode to three so that it can work.
+			if(firstGeneration == true){
+				dis = modeTwo();
+				break;
+			}
+			else {
+				dis = modeThree();
+				break;
+
+			}
+		}
 	}
 
+	//randomnumber is equal to my distribution with the mersenne twister in it
 	rnd = dis(randomGen);
 	auto it = ContWeight.begin();
 	std::advance(it, rnd);
-	usedContinent = it->first;
 	// this point it now points to the vector of rivers
 	std::uniform_int_distribution<> dist(0, it->second.size() - 1);
 	int num = dist(randomGen);
+	usedContinent = it->first;
+	firstGeneration = false;
 	return it->second[num];
-
 }
 
 std::string Rivers::getRandomRiver() {
@@ -126,15 +129,17 @@ std::string Rivers::getRandomRiver() {
 		}
 		break;
 	}
+	//code adapted from https://en.cppreference.com/w/cpp/container/deque, 2024
 	//if deque is full, pop first item to make space
 	if (usedRivers.size() == 6) {
 		usedRivers.pop_front();
 	}
 	//add new river to the deque then return it 
 	usedRivers.push_back(randomRiver);
-
+	//end of adapted code
 	return randomRiver;
 }
+
 
 bool Rivers::sameContinent(std::string r1, std::string r2) {
 	if (getContinent(r1) == "" || (getContinent(r2)) == "" || getContinent(r1) != getContinent(r2)) {
@@ -145,4 +150,4 @@ bool Rivers::sameContinent(std::string r1, std::string r2) {
 
 std::string Rivers::getContinent(std::string river) {
 	return rivers[river];
-}
+};

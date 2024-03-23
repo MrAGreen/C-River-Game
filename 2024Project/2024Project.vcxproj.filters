@@ -21,10 +21,10 @@
     <ClCompile Include="Rivers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Feedback (DO NOT EDIT).cpp">
+    <ClCompile Include="Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
+    <ClCompile Include="..\..\..\c+++++\c-real-one\2024Project\Feedback (DO NOT EDIT).cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
