@@ -149,5 +149,11 @@ bool Rivers::sameContinent(std::string r1, std::string r2) {
 }
 
 std::string Rivers::getContinent(std::string river) {
-	return rivers[river];
+	try {
+		return rivers[river];
+	}
+	catch(std::exception ex){
+		return "";
+	}
+
 };

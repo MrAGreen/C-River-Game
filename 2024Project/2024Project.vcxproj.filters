@@ -27,6 +27,9 @@
     <ClCompile Include="..\..\..\c+++++\c-real-one\2024Project\Feedback (DO NOT EDIT).cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rivers.h">

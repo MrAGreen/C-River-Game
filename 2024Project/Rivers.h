@@ -25,13 +25,7 @@
 class Rivers {
 
 private:
-	/**
-	 * @brief Map storing associations between river names and their corresponding continents.
-	 *
-	 * This `std::map` efficiently retrieves the continent for a given river name using the river name as the key and the continent name as the value.
-	 */
-	std::map<std::string, std::string> rivers;
-
+	
 	/**
 	 * @brief Map organizing rivers based on continents.
 	 *
@@ -61,12 +55,7 @@ private:
 	 */
 	std::mt19937_64 randomGen;
 
-	/**
-	 * @brief Integer storing the user-selected mode (1: equal weights for continents, 2: equal weights for rivers, 3: favor previously used continent).
-	 *
-	 * This `int` variable `myMode` holds the current operating mode chosen by the user, governing how continents and rivers are weighted for random selection.
-	 */
-	int myMode;
+	
 
 	/**
 	 * @brief Integer used as a temporary variable to hold randomly generated integers during river selection.
@@ -83,6 +72,21 @@ private:
 	bool firstGeneration;
 
 	public:
+
+	/**
+	 * @brief Integer storing the user-selected mode (1: equal weights for continents, 2: equal weights for rivers, 3: favor previously used continent).
+	 *
+	 * This `int` variable `myMode` holds the current operating mode chosen by the user, governing how continents and rivers are weighted for random selection.
+	 */
+		int myMode;
+	
+	/**
+	 * @brief Map storing associations between river names and their corresponding continents.
+	 *
+	 * This `std::map` efficiently retrieves the continent for a given river name using the river name as the key and the continent name as the value.
+	 */
+		std::map<std::string, std::string> rivers;
+
 	/**
 	* @brief Constructor for the Rivers class, initializing data and reading river data from multiple files.
 	*
@@ -162,7 +166,7 @@ private:
 	* 1. **Weight Initialization:**
 	*    - Creates a vector named `weights` to store weights for the distribution.
 	*    - Iterates through the `ContWeight` map (which maps continents to vector of rivers):
-	*      - Pushes the size of the continent's river vector (`i.second.size()`) into the `weights` vector. This assigns a weight equal to the number of rivers in each continent.
+	*    - Pushes the size of the continent's river vector (`i.second.size()`) into the `weights` vector. This assigns a weight equal to the number of rivers in each continent.
 	* 2. **Distribution Creation:**
 	*    - Constructs a `std::discrete_distribution` object named `dis`, using iterators to the beginning and end of the `weights` vector as arguments. This creates a distribution where each river (represented by its position in the combined river list) has an equal probability of being chosen.
 	* 3. **Distribution Return:**
@@ -264,7 +268,7 @@ private:
 	 * This function determines whether two rivers belong to the same continent using the internal data structures:
 	 * 1. **Continent Lookups:**
 	 *    - Calls the `getContinent` function for each river name (`r1` and `r2`) to retrieve their corresponding continents.
-	 *    - The `getContinent` function (likely a private member function, not shown here) is assumed to efficiently search the `rivers` map to find the continent associated with each river name.
+	 *    - The `getContinent` function allows the user to search the `rivers` map to find the continent associated with each river name.
 	 * 2. **Continent Comparison:**
 	 *    - Checks if either continent lookup resulted in an empty string (""). This indicates an error or data inconsistency, and the function returns `false`.
 	 *    - If both continent lookups were successful, it compares the retrieved continent names using the inequality operator (`!=`).
@@ -291,7 +295,7 @@ private:
 	 *    - The `rivers` map is assumed to store river names as keys and their corresponding continent names as values.
 	 * 2. **Continent Return:**
 	 *    - If the lookup is successful (the river name exists in the map), the function returns the associated continent name.
-	 *    - If the lookup fails (the river name is not found in the map), it's likely an error or data inconsistency. While not explicitly handled in the code, the documentation mentions this possibility.
+	 *    - If the lookup fails (the river name is not found in the map), we set the river to "" which will return false upon comparing the continents.
 	 *
 	 * @param river The name of the river
 	 * @return std::string The continent name associated with the river (or an empty string if not found)

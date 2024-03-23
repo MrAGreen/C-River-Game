@@ -1,0 +1,63 @@
+\doxysection{Rivers.\+h}
+\hypertarget{_rivers_8h_source}{}\label{_rivers_8h_source}\mbox{\hyperlink{_rivers_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <deque>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <random>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <ostream>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <iterator>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <thread>}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <mutex>}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <chrono>}>}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_rivers}{Rivers}}\ \{}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00033\ \ \ \ \ std::map<std::string,\ std::string>\ rivers;}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00041\ \ \ \ \ std::map<std::string,\ std::vector<std::string>>\ ContWeight;}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00048\ \ \ \ \ std::deque<std::string>\ usedRivers;}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00055\ \ \ \ \ std::string\ usedContinent;}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00062\ \ \ \ \ std::mt19937\_64\ randomGen;}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{int}\ myMode;}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordtype}{int}\ rnd;}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keywordtype}{bool}\ firstGeneration;}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00110\ \ \ \ \ \mbox{\hyperlink{class_rivers_a0f39096654a7e7a8de9701a87dc728f1}{Rivers}}(\textcolor{keyword}{const}\ std::vector<std::string>\&\ filenames);}
+\DoxyCodeLine{00139\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_rivers_a3ce00dc524b53651d48c2ed69ba6cf19}{fileRead}}(std::string\ filenames,\ std::mutex\&\ mutex);}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00157\ \ \ \ \ std::discrete\_distribution<>\ \mbox{\hyperlink{class_rivers_a064acc829a7444e74d987e79f6702c0f}{modeOne}}();}
+\DoxyCodeLine{00175\ \ \ \ \ std::discrete\_distribution<>\ \mbox{\hyperlink{class_rivers_adb782828161fd57351418a5b3b56fe63}{modeTwo}}();}
+\DoxyCodeLine{00197\ \ \ \ \ std::discrete\_distribution<>\ \mbox{\hyperlink{class_rivers_a0a06e6e52dbfdf5d157aadb16cf002a9}{modeThree}}();}
+\DoxyCodeLine{00198\ }
+\DoxyCodeLine{00232\ \ \ \ \ std::string\ \mbox{\hyperlink{class_rivers_a8027e0f5dcd46892308ebe1790f55575}{newRandomRiver}}();}
+\DoxyCodeLine{00233\ }
+\DoxyCodeLine{00259\ \ \ \ \ std::string\ \mbox{\hyperlink{class_rivers_a8bef4cc11bb9f69cfb9dccfd744a3c26}{getRandomRiver}}();}
+\DoxyCodeLine{00260\ }
+\DoxyCodeLine{00282\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_rivers_a31cf9ca5a6c11c45b3927a3fe81a93d9}{sameContinent}}(std::string\ river1,\ std::string\ river2);}
+\DoxyCodeLine{00283\ }
+\DoxyCodeLine{00284\ }
+\DoxyCodeLine{00302\ \ \ \ \ std::string\ \mbox{\hyperlink{class_rivers_a2fc16ccfa774772722d1cc4b84c5fceb}{getContinent}}(std::string\ river);}
+\DoxyCodeLine{00303\ }
+\DoxyCodeLine{00317\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_rivers_a674d0c5f0d0f28a52ccbf20a1e87d5bc}{setMode}}(\textcolor{keywordtype}{int}\ mode)\ \{}
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ myMode\ =\ mode;}
+\DoxyCodeLine{00319\ \ \ \ \ \}}
+\DoxyCodeLine{00320\ }
+\DoxyCodeLine{00321\ \};}
+
+\end{DoxyCode}
