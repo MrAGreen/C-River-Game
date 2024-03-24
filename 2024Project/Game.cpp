@@ -52,7 +52,7 @@ bool Game::playRound(std::ostream& out, std::istream& in) {
 	userTime(out, in);
 	//check if the input was valid
 	validInput();
-	if (stringInput == "d" || stringInput == "s") { 
+	if (stringInput == "d" || stringInput == "s") {
 		// check if the user scores a point and return correct/false
 		out << pointScoring(stringInput, r.sameContinent(river1, river2));
 	}

@@ -40,10 +40,7 @@ private:
 	 */
 	std::vector<std::pair<double, std::string>> fastestTimes;
 
-	/**
-	 * Double to store the time taken by the user in a round (in milliseconds).
-	 */
-	double dur = 0;
+
 
 	/**
 	 * Integer to track the player's score.
@@ -56,6 +53,11 @@ private:
 	int total = 0;
 
 public:
+
+	/**
+	 * Double to store the time taken by the user in a round (in milliseconds).
+	 */
+	double dur = 0;
 	/**
 	 * Constructor for the Game class, taking a reference to a Rivers object.
 	 *
@@ -92,7 +94,7 @@ public:
 	 * This function validates the user's input stored in `stringInput`. If it's not
 	 * a single character (length not equal to 1), it resets `stringInput` to a default
 	 * value of "a" to ensure consistent processing in subsequent steps.
-	 * Time Complexity: O(1) - Constant time 
+	 * Time Complexity: O(1) - Constant time
 	 */
 	void validInput() {
 		if (stringInput.length() != 1) {
@@ -134,7 +136,7 @@ public:
 	 * as a string) in the `fastestTimes` vector, paired with the measured duration for
 	 * quick sorting and retrieval. It also calls `incrementScore()` to increase the
 	 * player's score.
-	 * Time Complexity: O(1) - Constant time 
+	 * Time Complexity: O(1) - Constant time
 	 */
 	void addTime();
 
@@ -142,13 +144,13 @@ public:
 	 * @brief Retrieves the current score.
 	 *
 	 * @return The current score value
-	 * Time Complexity: O(1) - Constant time 
+	 * Time Complexity: O(1) - Constant time
 	 */
 	int getScore() const { return score; }
 
 	/**
 	 * @brief Increments the current score by 1.
-	 * Time Complexity: O(1) - Constant time 
+	 * Time Complexity: O(1) - Constant time
 	 */
 	void incrementScore() { ++score; }
 
@@ -156,19 +158,19 @@ public:
 	 * @brief Retrieves the total number of questions played.
 	 *
 	 * @return The total number of questions played
-	 * Time Complexity: O(1) - Constant time 
+	 * Time Complexity: O(1) - Constant time
 	 */
 	int getTotal() const { return total; }
 
 	/**
 	 * @brief Increments the total number of questions played by 1.
-	 * Time Complexity: O(1) - Constant time 
+	 * Time Complexity: O(1) - Constant time
 	 */
 	void incrementTotal() { ++total; }
 
 	/**
 	 * @brief Resets the score and total questions to 0.
-	 * Time Complexity: O(1) - Constant time 
+	 * Time Complexity: O(1) - Constant time
 	 */
 	void reset() {
 		score = 0;  // Reset score

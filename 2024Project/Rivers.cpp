@@ -1,7 +1,18 @@
 #include "Rivers.h"
+#include <filesystem>
+using namespace std;
 
+//class noFileException : public std::exception {
+//	void fileMissing(const std::vector<std::string>& filenames) {
+//		for (const auto& filename : filenames)
+//			if (!std::filesystem::exists(filename)) {
+//				std::cerr << "Error: File " << filename << "doesn't exist" << std::endl;
+//				exit(EXIT_FAILURE);
+//			}
+//	}
+//};
 
-Rivers::Rivers(const std::vector<std::string>& filenames){
+Rivers::Rivers(const std::vector<std::string>& filenames) {
 	firstGeneration = true;
 	myMode = 2;
 	std::mutex mutex;
@@ -20,20 +31,26 @@ Rivers::Rivers(const std::vector<std::string>& filenames){
 
 void Rivers::fileRead(std::string filenames, std::mutex& mutex) {
 	std::vector<std::string> vec;
-		std::fstream file(filenames);
-		if (file.is_open()) {
-			std::string cont = filenames.substr(0, filenames.length() - 4);
-			std::string r;
-			std::vector<std::string> vec;
-			while (getline(file, r)) {
-				mutex.lock();
-				cont[0] = toupper(cont[0]);
-				rivers[r] = cont;
-				vec.push_back(r);
-				mutex.unlock();
-		} 
-		ContWeight[cont] = vec;		
+	std::fstream file(filenames);
+	/*try {*/
+	if (file.is_open()) {
+		std::string cont = filenames.substr(0, filenames.length() - 4);
+		std::string r;
+		std::vector<std::string> vec;
+		while (getline(file, r)) {
+			mutex.lock();
+			cont[0] = toupper(cont[0]);
+			rivers[r] = cont;
+			vec.push_back(r);
+			mutex.unlock();
+		}
+		ContWeight[cont] = vec;
 	}
+	/*catch(std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+}*/
 }
 
 std::discrete_distribution<> Rivers::modeOne() {
@@ -89,16 +106,16 @@ std::string Rivers::newRandomRiver() {
 	case 3: {
 		//the first generation uses mode 2 so that the river is randomly generated, then we set
 		//the mode to three so that it can work.
-			if(firstGeneration == true){
-				dis = modeTwo();
-				break;
-			}
-			else {
-				dis = modeThree();
-				break;
-
-			}
+		if (firstGeneration == true) {
+			dis = modeTwo();
+			break;
 		}
+		else {
+			dis = modeThree();
+			break;
+
+		}
+	}
 	}
 
 	//randomnumber is equal to my distribution with the mersenne twister in it
@@ -152,7 +169,7 @@ std::string Rivers::getContinent(std::string river) {
 	try {
 		return rivers[river];
 	}
-	catch(std::exception ex){
+	catch (std::exception ex) {
 		return "";
 	}
 

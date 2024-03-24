@@ -14,7 +14,9 @@
 #include <iterator>
 #include <thread>
 #include <mutex>
-#include <chrono>>
+#include <chrono>
+#include <filesystem>
+//https://en.cppreference.com/w/cpp/filesystem/exists reference this pls
 
 /**
  * @brief Class representing river information and functionalities for random river name generation.
@@ -25,7 +27,7 @@
 class Rivers {
 
 private:
-	
+
 	/**
 	 * @brief Map organizing rivers based on continents.
 	 *
@@ -55,7 +57,7 @@ private:
 	 */
 	std::mt19937_64 randomGen;
 
-	
+
 
 	/**
 	 * @brief Integer used as a temporary variable to hold randomly generated integers during river selection.
@@ -71,21 +73,21 @@ private:
 	 */
 	bool firstGeneration;
 
-	public:
+public:
 
 	/**
 	 * @brief Integer storing the user-selected mode (1: equal weights for continents, 2: equal weights for rivers, 3: favor previously used continent).
 	 *
 	 * This `int` variable `myMode` holds the current operating mode chosen by the user, governing how continents and rivers are weighted for random selection.
 	 */
-		int myMode;
-	
+	int myMode;
+
 	/**
 	 * @brief Map storing associations between river names and their corresponding continents.
 	 *
 	 * This `std::map` efficiently retrieves the continent for a given river name using the river name as the key and the continent name as the value.
 	 */
-		std::map<std::string, std::string> rivers;
+	std::map<std::string, std::string> rivers;
 
 	/**
 	* @brief Constructor for the Rivers class, initializing data and reading river data from multiple files.
@@ -108,7 +110,7 @@ private:
 	* This constructor essentially uses threads to concurrently read and store river data from multiple files, improving efficiency. The `mutex` ensures thread safety while accessing shared data during this process.
 	*
 	* @param filenames A vector of `std::string` containing file names. Each file represents a continent and contains river names, with the continent name as the first part of each line in the file.
-	* 	 
+	*
 	* Time Complexity: O(n) - Linear time.
 	*/
 	Rivers(const std::vector<std::string>& filenames);
@@ -173,7 +175,7 @@ private:
 	*    - Returns the created `dis` object, which can be used for random sampling of rivers with equal weights.
 	*
 	* @return std::discrete_distribution<double> A discrete distribution with equal weights for individual rivers
-	* 	
+	*
 	*Time Complexity: O(n) - Linear time.
 	*/
 	std::discrete_distribution<> modeTwo();
@@ -194,7 +196,7 @@ private:
 	 *    - Returns the created `dis` object, which can be used for random sampling of continents with biased weights favoring the previously used one.
 	 *
 	 * @return std::discrete_distribution<double> A discrete distribution favoring the previously used continent
-	 * 	
+	 *
 	 * Time Complexity: O(n) - Linear time.
 	 */
 
@@ -229,7 +231,7 @@ private:
 	 *    - Returns the randomly selected river name from the chosen continent's river vector using the iterator `it` and the random number (`num`) for indexing.
 	 *
 	 * @return std::string A randomly selected river name
-	 * 	 
+	 *
 	 * Time Complexity: O(n) - Linear time.
 	 */
 
@@ -256,7 +258,7 @@ private:
 	 *    - Returns the generated river name, ensuring it hasn't been used recently within the tracked history.
 	 *
 	 * @return std::string A unique randomly generated river name
-	 * 	 
+	 *
 	 * Time Complexity: O(n) - Linear time.
 	 */
 
@@ -279,7 +281,7 @@ private:
 	 * @param r1 The name of the first river
 	 * @param r2 The name of the second river
 	 * @return bool True if the rivers are on the same continent, false otherwise
-	 * 	 
+	 *
 	 * Time Complexity: O(1) - Constant time.
 	 */
 
@@ -299,10 +301,10 @@ private:
 	 *
 	 * @param river The name of the river
 	 * @return std::string The continent name associated with the river (or an empty string if not found)
-	 * 	
+	 *
 	 * Time Complexity: O(1) - Constant time.
 	 */
-		
+
 	std::string getContinent(std::string river);
 
 	/**
@@ -314,7 +316,7 @@ private:
 		*   - 1: Equal weights for continents (each continent has an equal chance of being selected).
 		*   - 2: Equal weights for individual rivers (each river has an equal chance of being selected, regardless of continent).
 		*   - 3: Favor previously used continent (the continent used in the previous generation has a 50% probability of being generated, and the remaining weight is distributed equally among other continents).
-		* 	
+		*
 		* Time Complexity: O(1) - Constant time.
 		*/
 
