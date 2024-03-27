@@ -36,23 +36,20 @@ private:
 	std::string river2;
 
 	/**
-	 * Vector to store information about the fastest rounds (time and formatted string).
-	 */
-	std::vector<std::pair<double, std::string>> fastestTimes;
-
-
-
-	/**
-	 * Integer to track the player's score.
-	 */
-	int score = 0;
-
-	/**
 	 * Integer to track the total number of questions played.
 	 */
 	int total = 0;
 
 public:
+
+	/**
+	 * Vector to store information about the fastest rounds (time and formatted string).
+	 */
+	std::vector<std::pair<double, std::string>> fastestTimes;
+	/**
+	 * Integer to track the player's score.
+	 */
+	int score = 0;
 
 	/**
 	 * Double to store the time taken by the user in a round (in milliseconds).
@@ -177,6 +174,7 @@ public:
 		total = 0;  // Reset total questions
 
 	}
+
 	/**
 	 * @brief Manages a single round of the game, handling user input, feedback, scoring, and termination.
 	 *

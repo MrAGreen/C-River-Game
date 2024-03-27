@@ -1,6 +1,5 @@
 /** @file rivers.h */
 
-#pragma once
 
 #pragma once
 #include <map>
@@ -324,4 +323,7 @@ public:
 		myMode = mode;
 	}
 
+	int getMode() {
+		return myMode;
+	}
 };

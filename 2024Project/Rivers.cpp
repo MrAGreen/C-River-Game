@@ -1,16 +1,8 @@
 #include "Rivers.h"
+#include "FileExceptions.cpp"
 #include <filesystem>
-using namespace std;
 
-//class noFileException : public std::exception {
-//	void fileMissing(const std::vector<std::string>& filenames) {
-//		for (const auto& filename : filenames)
-//			if (!std::filesystem::exists(filename)) {
-//				std::cerr << "Error: File " << filename << "doesn't exist" << std::endl;
-//				exit(EXIT_FAILURE);
-//			}
-//	}
-//};
+
 
 Rivers::Rivers(const std::vector<std::string>& filenames) {
 	firstGeneration = true;
@@ -20,9 +12,17 @@ Rivers::Rivers(const std::vector<std::string>& filenames) {
 	randomGen = std::mt19937_64(rd());
 	std::vector<std::string> vec;
 	std::vector<std::thread> files;
+	FileException::FileException(filenames);
+
 	for (const auto& f : filenames) {
-		std::thread t1(&Rivers::fileRead, this, f, std::ref(mutex));
-		files.push_back(std::move(t1));
+		try {
+			std::thread t1(&Rivers::fileRead, this, f, std::ref(mutex));
+			files.push_back(std::move(t1));
+		}
+		catch(FileException e){
+			std::cerr << e.what() << std::endl;
+			exit(EXIT_FAILURE);
+		}
 	}
 	for (std::thread& thread : files) {
 		thread.join();
@@ -32,25 +32,26 @@ Rivers::Rivers(const std::vector<std::string>& filenames) {
 void Rivers::fileRead(std::string filenames, std::mutex& mutex) {
 	std::vector<std::string> vec;
 	std::fstream file(filenames);
-	/*try {*/
-	if (file.is_open()) {
-		std::string cont = filenames.substr(0, filenames.length() - 4);
-		std::string r;
-		std::vector<std::string> vec;
-		while (getline(file, r)) {
-			mutex.lock();
-			cont[0] = toupper(cont[0]);
-			rivers[r] = cont;
-			vec.push_back(r);
-			mutex.unlock();
+	try {
+		if (file.is_open()) {
+			std::string cont = filenames.substr(0, filenames.length() - 4);
+			std::string r;
+			std::vector<std::string> vec;
+			while (getline(file, r)) {
+				mutex.lock();
+				cont[0] = toupper(cont[0]);
+				rivers[r] = cont;
+				vec.push_back(r);
+				mutex.unlock();
+			}
+			ContWeight[cont] = vec;
 		}
-		ContWeight[cont] = vec;
 	}
-	/*catch(std::exception& e)
+	catch (std::exception& e)
 	{
 		std::cerr << e.what() << std::endl;
+		exit(EXIT_FAILURE);
 	}
-}*/
 }
 
 std::discrete_distribution<> Rivers::modeOne() {

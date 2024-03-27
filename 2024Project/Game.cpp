@@ -44,6 +44,7 @@ void Game::addTime() {
 	fastestTimes.push_back(std::make_pair(dur, river1 + "," + river2 + "," + std::to_string(dur)));
 	incrementScore();
 }
+
 //playround has been cleaned up and uses all the other functions 
 bool Game::playRound(std::ostream& out, std::istream& in) {
 	//out the random rivers
@@ -56,10 +57,16 @@ bool Game::playRound(std::ostream& out, std::istream& in) {
 		// check if the user scores a point and return correct/false
 		out << pointScoring(stringInput, r.sameContinent(river1, river2));
 	}
+	else {
+		out << "Incorrect input, the program will now end";
+		return false;
+	}
+
 	// if they enter q the playround ends and then the getfastest method returns from mikes code
 	if (stringInput == "q") {
 		return false;
 	}
+
 	//increment the total at the end so that if they enter an answer that is either valid or invalid it
 	//will still increase the total
 	incrementTotal();

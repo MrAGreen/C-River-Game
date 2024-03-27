@@ -5,6 +5,8 @@
 #include <iomanip>
 #include <thread>
 #include <limits>
+//for numbers only for input
+#include <cctype>
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -47,7 +49,17 @@ int main()
 	std::cout << std::endl << "There are 3 modes: \n\n\t1\tequal probability of continents \n\t2\tequal probability of rivers \n\t3\t50% probability of consecutive rivers being in the same continent ";
 	std::cout << std::endl << "\nEnter your chosen mode (1,2 or 3) to get started: ";
 	int mode;
-	std::cin >> mode;
+	while (true) {
+		std::cin >> mode;
+		if (mode == 1 || mode == 2 || mode == 3) {
+			break;
+		}
+		else {
+			"You have entered the wrong input, the program will now end";
+
+			exit(EXIT_SUCCESS);
+		}
+	}
 	r.setMode(mode);
 #endif
 	std::cout << "\033[2J\033[H\033[0;90m(enter s, d or q  - [s]ame [d]ifferent or [q]uit)\n\n\n\033[0m";
