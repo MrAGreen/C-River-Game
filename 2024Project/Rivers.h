@@ -1,6 +1,5 @@
 /** @file rivers.h */
 
-
 #pragma once
 #include <map>
 #include <string>
@@ -15,7 +14,6 @@
 #include <mutex>
 #include <chrono>
 #include <filesystem>
-//https://en.cppreference.com/w/cpp/filesystem/exists reference this pls
 
 /**
  * @brief Class representing river information and functionalities for random river name generation.
@@ -55,8 +53,6 @@ private:
 	 * This `std::mt19937_64` object is a Mersenne Twister pseudo-random number generator (PRNG) used to provide a strong source of randomness for selecting continents and rivers.
 	 */
 	std::mt19937_64 randomGen;
-
-
 
 	/**
 	 * @brief Integer used as a temporary variable to hold randomly generated integers during river selection.
@@ -322,6 +318,16 @@ public:
 	void setMode(int mode) {
 		myMode = mode;
 	}
+
+	/**
+	 * @brief Get the current mode.
+	 *
+	 * This function returns the value of the `myMode` variable, which represents the current mode.
+	 *
+	 * @return The current mode value.
+	 *
+     * Time Complexity: O(1) - Constant time.
+	 */
 
 	int getMode() {
 		return myMode;

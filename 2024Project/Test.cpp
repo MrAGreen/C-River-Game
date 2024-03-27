@@ -3,22 +3,32 @@
 #include <boost/test/data/test_case.hpp>
 #include "Game.h"
 #include "Rivers.h"
-
+#include <boost/random/discrete_distribution.hpp>
+#include "boost/generator_iterator.hpp"
+#include "boost/random.hpp"
 namespace bdata = boost::unit_test::data;
-using namespace std;
-
 
 bool SortDurationCopy(std::pair<double, std::string> x, std::pair<double, std::string> y)
 {
     return x.first < y.first;
+
 }
 
 struct RiversFixture {
 
     Rivers riverFiles{ {"Europe.txt","Asia.txt","Africa.txt","South America.txt"} };
+    std::mt19937_64 randomGen;
+    std::vector<double> weights;
 
+    std::vector<std::string> files {"Europe.txt","Asia.txt","Africa.txt","South America.txt"};
+    void setWeight() {
+        for (auto& i : files)
+        {
+            weights.push_back(1);
+        }
+    }
+    
 };
-
 
 BOOST_FIXTURE_TEST_SUITE(RiversTests, RiversFixture);
 
@@ -108,16 +118,18 @@ BOOST_AUTO_TEST_CASE(testSortFunction) {
     BOOST_CHECK(!SortDurationCopy(testPair1, testPair2));
 }
 
-//BOOST_AUTO_TEST_CASE(testUserTime) {
-//    Rivers r(riverFiles);
-//    Game myGame(r);
-//
-//
+
+//BOOST_AUTO_TEST_CASE(testModeOne) {
+//    std::discrete_distribution dis = riverFiles.modeOne();
+//    boost::random::discrete_distribution<> dist(weights.begin(), weights.end());
+//    BOOST_CHECK_CLOSE(dis, dist, 0.1);
 //}
 
-std::string inputs[] = { "1", "22", "300", "as", "a", "q", "///" };
+BOOST_AUTO_TEST_SUITE_END()
 
 //BOOST_DATA_TEST_CASE(Game::validInput(), bdata::make(inputs)){
+// std::string inputs[] = { "1", "22", "300", "as", "a", "q", "///" };
+
 //    
 //    std::string test;
 //
@@ -131,4 +143,12 @@ std::string inputs[] = { "1", "22", "300", "as", "a", "q", "///" };
 //
 //}
 
-BOOST_AUTO_TEST_SUITE_END()
+//std::discrete_distribution<> Rivers::modeOne() {
+//std::vector<double> weights;
+//for (auto& i : ContWeight)
+//{
+//    weights.push_back(1);
+//}
+//std::discrete_distribution<> dis(weights.begin(), weights.end());
+//return dis;
+//}
