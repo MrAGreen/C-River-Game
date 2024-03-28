@@ -1,0 +1,477 @@
+\doxysection{Rivers Class Reference}
+\hypertarget{class_rivers}{}\label{class_rivers}\index{Rivers@{Rivers}}
+
+
+Class representing river information and functionalities for random river name generation.  
+
+
+
+
+{\ttfamily \#include $<$Rivers.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_rivers_a0f39096654a7e7a8de9701a87dc728f1}{Rivers}} (const std\+::vector$<$ std\+::string $>$ \&filenames)
+\begin{DoxyCompactList}\small\item\em Constructor for the \doxylink{class_rivers}{Rivers} class, initializing data and reading river data from multiple files. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_rivers_a3ce00dc524b53651d48c2ed69ba6cf19}{file\+Read}} (std\+::string filenames, std\+::mutex \&mutex)
+\begin{DoxyCompactList}\small\item\em Reads river data from a single file and stores it in the \doxylink{class_rivers}{Rivers} object. \end{DoxyCompactList}\item 
+std\+::discrete\+\_\+distribution \mbox{\hyperlink{class_rivers_a064acc829a7444e74d987e79f6702c0f}{mode\+One}} ()
+\begin{DoxyCompactList}\small\item\em Creates a discrete distribution for mode 1, where continents have equal weights. \end{DoxyCompactList}\item 
+std\+::discrete\+\_\+distribution \mbox{\hyperlink{class_rivers_adb782828161fd57351418a5b3b56fe63}{mode\+Two}} ()
+\begin{DoxyCompactList}\small\item\em Creates a discrete distribution for mode 2, where individual rivers have equal weights. \end{DoxyCompactList}\item 
+std\+::discrete\+\_\+distribution \mbox{\hyperlink{class_rivers_a0a06e6e52dbfdf5d157aadb16cf002a9}{mode\+Three}} ()
+\begin{DoxyCompactList}\small\item\em Creates a discrete distribution for mode 3, favoring the previously used continent. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_rivers_a8027e0f5dcd46892308ebe1790f55575}{new\+Random\+River}} ()
+\begin{DoxyCompactList}\small\item\em Generates a random river name based on the selected mode. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_rivers_a8bef4cc11bb9f69cfb9dccfd744a3c26}{get\+Random\+River}} ()
+\begin{DoxyCompactList}\small\item\em Obtains a randomly generated river name, avoiding recent duplicates. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_rivers_a31cf9ca5a6c11c45b3927a3fe81a93d9}{same\+Continent}} (std\+::string river1, std\+::string river2)
+\begin{DoxyCompactList}\small\item\em Checks if two rivers are located on the same continent. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_rivers_a2fc16ccfa774772722d1cc4b84c5fceb}{get\+Continent}} (std\+::string river)
+\begin{DoxyCompactList}\small\item\em Retrieves the continent associated with a given river name. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_rivers_a674d0c5f0d0f28a52ccbf20a1e87d5bc}{set\+Mode}} (int mode)
+\begin{DoxyCompactList}\small\item\em Sets the operating mode for random river generation. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_rivers_ae543ab9032f06faa8664967c804d7f55}{get\+Mode}} ()
+\begin{DoxyCompactList}\small\item\em Get the current mode. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{class_rivers_adba405f446b9e7477ee78a9d11cf758d}{my\+Mode}}
+\begin{DoxyCompactList}\small\item\em Integer storing the user-\/selected mode (1\+: equal weights for continents, 2\+: equal weights for rivers, 3\+: favor previously used continent). \end{DoxyCompactList}\item 
+std\+::map$<$ std\+::string, std\+::string $>$ \mbox{\hyperlink{class_rivers_a748bd7dbab1a57b0c43a13ba8a2e8089}{rivers}}
+\begin{DoxyCompactList}\small\item\em Map storing associations between river names and their corresponding continents. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class representing river information and functionalities for random river name generation. 
+
+The {\ttfamily \doxylink{class_rivers}{Rivers}} class provides functionalities for managing river data and generating random river names based on user-\/selected modes. It utilizes various data structures to store river names, continents, and weights for random selection. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_rivers_a0f39096654a7e7a8de9701a87dc728f1}\label{class_rivers_a0f39096654a7e7a8de9701a87dc728f1} 
+\index{Rivers@{Rivers}!Rivers@{Rivers}}
+\index{Rivers@{Rivers}!Rivers@{Rivers}}
+\doxysubsubsection{\texorpdfstring{Rivers()}{Rivers()}}
+{\footnotesize\ttfamily Rivers\+::\+Rivers (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ std\+::string $>$ \&}]{filenames }\end{DoxyParamCaption})}
+
+
+
+Constructor for the \doxylink{class_rivers}{Rivers} class, initializing data and reading river data from multiple files. 
+
+This constructor performs the following steps to set up the {\ttfamily \doxylink{class_rivers}{Rivers}} object\+:
+\begin{DoxyEnumerate}
+\item {\bfseries{Initialization\+:}}
+\begin{DoxyItemize}
+\item Sets {\ttfamily first\+Generation} flag to {\ttfamily true}, indicating it\textquotesingle{}s the first time a random river will be generated (used in mode 3).
+\item Sets {\ttfamily my\+Mode} to 2, representing the default mode (equal weights for individual rivers).
+\item Creates a {\ttfamily mutex} object for thread safety during parallel file reading.
+\item Initializes a {\ttfamily random\+Gen} object using {\ttfamily std\+::random\+\_\+device} to seed a Mersenne Twister random number generator.
+\end{DoxyItemize}
+\item {\bfseries{Parallel File Reading\+:}}
+\begin{DoxyItemize}
+\item Creates a vector named {\ttfamily files} to store thread objects.
+\item Iterates through the provided {\ttfamily filenames} vector\+:
+\item For each file name {\ttfamily f}, creates a new thread object {\ttfamily t1} using the {\ttfamily file\+Read} member function as the target.
+\item Passes {\ttfamily this} pointer (current object), {\ttfamily f} (file name), and a reference to the {\ttfamily mutex} object as arguments to {\ttfamily file\+Read}.
+\item Pushes the created thread object {\ttfamily t1} into the {\ttfamily files} vector.
+\item Waits for all threads to finish by iterating through the {\ttfamily files} vector\+:
+\item For each thread object in {\ttfamily files}, calls the {\ttfamily join} method to wait for that thread to complete.
+\end{DoxyItemize}
+\end{DoxyEnumerate}
+
+This constructor essentially uses threads to concurrently read and store river data from multiple files, improving efficiency. The {\ttfamily mutex} ensures thread safety while accessing shared data during this process.
+
+
+\begin{DoxyParams}{Parameters}
+{\em filenames} & A vector of {\ttfamily std\+::string} containing file names. Each file represents a continent and contains river names, with the continent name as the first part of each line in the file.\\
+\hline
+\end{DoxyParams}
+Time Complexity\+: O(n) -\/ Linear time. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_rivers_a3ce00dc524b53651d48c2ed69ba6cf19}\label{class_rivers_a3ce00dc524b53651d48c2ed69ba6cf19} 
+\index{Rivers@{Rivers}!fileRead@{fileRead}}
+\index{fileRead@{fileRead}!Rivers@{Rivers}}
+\doxysubsubsection{\texorpdfstring{fileRead()}{fileRead()}}
+{\footnotesize\ttfamily void Rivers\+::file\+Read (\begin{DoxyParamCaption}\item[{std\+::string}]{filenames,  }\item[{std\+::mutex \&}]{mutex }\end{DoxyParamCaption})}
+
+
+
+Reads river data from a single file and stores it in the \doxylink{class_rivers}{Rivers} object. 
+
+This function is designed to be called by a thread and takes the following steps\+:
+\begin{DoxyEnumerate}
+\item {\bfseries{File Opening and Error Handling\+:}}
+\begin{DoxyItemize}
+\item Creates an {\ttfamily std\+::fstream} object named {\ttfamily file} to open the provided {\ttfamily filenames} string.
+\item Checks if the file was opened successfully using {\ttfamily file.\+is\+\_\+open()}. If not, potential error handling (e.\+g., throwing an exception or logging an error) can be implemented here (not shown).
+\end{DoxyItemize}
+\item {\bfseries{Continent Extraction\+:}}
+\begin{DoxyItemize}
+\item Extracts the continent name from the {\ttfamily filenames} string by taking a substring from the beginning to the length minus 4 (assuming the file name format includes the continent name followed by "{}.\+txt"{}).
+\item Converts the first character of the continent name to uppercase using {\ttfamily toupper}.
+\end{DoxyItemize}
+\item {\bfseries{River Data Processing (Within Mutex Lock)\+:}}
+\begin{DoxyItemize}
+\item Creates a local string variable {\ttfamily r} to store each line read from the file.
+\item Creates a local vector {\ttfamily vec} to temporarily store rivers for this continent.
+\item Iterates through the file line by line using {\ttfamily getline(file, r)}.
+\item Acquires the lock on the {\ttfamily mutex} object to ensure thread safety during shared data access.
+\item Stores the river name ({\ttfamily r}) and its corresponding continent ({\ttfamily cont}) in the {\ttfamily rivers} map.
+\item Pushes the river name into the local {\ttfamily vec} vector.
+\item Releases the lock on the {\ttfamily mutex} after modifications.
+\end{DoxyItemize}
+\item {\bfseries{Continent-\/\+River Mapping (Outside Mutex)\+:}}
+\begin{DoxyItemize}
+\item After processing all lines in the file, adds a new entry to the {\ttfamily Cont\+Weight} map.
+\item The key for the new entry is the continent name ({\ttfamily cont}).
+\item The value for the new entry is the local vector {\ttfamily vec} containing all river names for that continent.
+\end{DoxyItemize}
+\end{DoxyEnumerate}
+
+
+\begin{DoxyParams}{Parameters}
+{\em filenames} & The name of the file containing river data (assumed format\+: continent\+\_\+name.\+txt) \\
+\hline
+{\em mutex} & A reference to the mutex object for thread safety\\
+\hline
+\end{DoxyParams}
+Time Complexity\+: O(1) + O(n \texorpdfstring{$\ast$}{*} log n) \Hypertarget{class_rivers_a2fc16ccfa774772722d1cc4b84c5fceb}\label{class_rivers_a2fc16ccfa774772722d1cc4b84c5fceb} 
+\index{Rivers@{Rivers}!getContinent@{getContinent}}
+\index{getContinent@{getContinent}!Rivers@{Rivers}}
+\doxysubsubsection{\texorpdfstring{getContinent()}{getContinent()}}
+{\footnotesize\ttfamily std\+::string Rivers\+::get\+Continent (\begin{DoxyParamCaption}\item[{std\+::string}]{river }\end{DoxyParamCaption})}
+
+
+
+Retrieves the continent associated with a given river name. 
+
+This function efficiently retrieves the continent for a river name using the internal {\ttfamily rivers} map\+:
+\begin{DoxyEnumerate}
+\item {\bfseries{Map Lookup\+:}}
+\begin{DoxyItemize}
+\item Uses the provided {\ttfamily river} name as a key to look up its corresponding value in the {\ttfamily rivers} map.
+\item The {\ttfamily rivers} map is assumed to store river names as keys and their corresponding continent names as values.
+\end{DoxyItemize}
+\item {\bfseries{Continent Return\+:}}
+\begin{DoxyItemize}
+\item If the lookup is successful (the river name exists in the map), the function returns the associated continent name.
+\item If the lookup fails (the river name is not found in the map), we set the river to "{}"{} which will return false upon comparing the continents.
+\end{DoxyItemize}
+\end{DoxyEnumerate}
+
+
+\begin{DoxyParams}{Parameters}
+{\em river} & The name of the river \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::string The continent name associated with the river (or an empty string if not found)
+\end{DoxyReturn}
+Time Complexity\+: O(1) -\/ Constant time. \Hypertarget{class_rivers_ae543ab9032f06faa8664967c804d7f55}\label{class_rivers_ae543ab9032f06faa8664967c804d7f55} 
+\index{Rivers@{Rivers}!getMode@{getMode}}
+\index{getMode@{getMode}!Rivers@{Rivers}}
+\doxysubsubsection{\texorpdfstring{getMode()}{getMode()}}
+{\footnotesize\ttfamily int Rivers\+::get\+Mode (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the current mode. 
+
+This function returns the value of the {\ttfamily my\+Mode} variable, which represents the current mode.
+
+\begin{DoxyReturn}{Returns}
+The current mode value.
+\end{DoxyReturn}
+Time Complexity\+: O(1) -\/ Constant time. \Hypertarget{class_rivers_a8bef4cc11bb9f69cfb9dccfd744a3c26}\label{class_rivers_a8bef4cc11bb9f69cfb9dccfd744a3c26} 
+\index{Rivers@{Rivers}!getRandomRiver@{getRandomRiver}}
+\index{getRandomRiver@{getRandomRiver}!Rivers@{Rivers}}
+\doxysubsubsection{\texorpdfstring{getRandomRiver()}{getRandomRiver()}}
+{\footnotesize\ttfamily std\+::string Rivers\+::get\+Random\+River (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Obtains a randomly generated river name, avoiding recent duplicates. 
+
+This function generates a unique random river name within a limited history, following these steps\+:
+\begin{DoxyEnumerate}
+\item {\bfseries{Initial Random River Generation\+:}}
+\begin{DoxyItemize}
+\item Calls the {\ttfamily new\+Random\+River} function to generate a random river name based on the selected mode and weighting strategy.
+\end{DoxyItemize}
+\item {\bfseries{Duplicate Check Loop\+:}}
+\begin{DoxyItemize}
+\item Enters a {\ttfamily while} loop to ensure the generated river name is unique within a limited history\+:
+\item Uses {\ttfamily std\+::find} to search for the generated river name in the {\ttfamily used\+Rivers} deque (a container that stores recently used rivers).
+\item If the river is found ({\ttfamily it != used\+Rivers.\+end()}), it\textquotesingle{}s considered a duplicate\+:
+\begin{DoxyItemize}
+\item Regenerates a new random river name using {\ttfamily new\+Random\+River}.
+\item Continues to the beginning of the loop for further checks.
+\end{DoxyItemize}
+\item If the river is not found ({\ttfamily it == used\+Rivers.\+end()}), a unique river has been generated, so the loop breaks.
+\end{DoxyItemize}
+\item {\bfseries{History Maintenance\+:}}
+\begin{DoxyItemize}
+\item If the {\ttfamily used\+Rivers} deque is full (size = 6)\+:
+\item Removes the oldest river name from the front of the deque using {\ttfamily pop\+\_\+front} to maintain a limited history.
+\end{DoxyItemize}
+\end{DoxyEnumerate}
+
+Adds the newly generated river name to the end of the deque using {\ttfamily push\+\_\+back} to track its usage.
+\begin{DoxyEnumerate}
+\item {\bfseries{Returning Unique River Name\+:}}
+\begin{DoxyItemize}
+\item Returns the generated river name, ensuring it hasn\textquotesingle{}t been used recently within the tracked history.
+\end{DoxyItemize}
+\end{DoxyEnumerate}
+
+\begin{DoxyReturn}{Returns}
+std\+::string A unique randomly generated river name
+\end{DoxyReturn}
+Time Complexity\+: O(n) -\/ Linear time. \Hypertarget{class_rivers_a064acc829a7444e74d987e79f6702c0f}\label{class_rivers_a064acc829a7444e74d987e79f6702c0f} 
+\index{Rivers@{Rivers}!modeOne@{modeOne}}
+\index{modeOne@{modeOne}!Rivers@{Rivers}}
+\doxysubsubsection{\texorpdfstring{modeOne()}{modeOne()}}
+{\footnotesize\ttfamily std\+::discrete\+\_\+distribution Rivers\+::mode\+One (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Creates a discrete distribution for mode 1, where continents have equal weights. 
+
+This function generates a discrete distribution that assigns equal probabilities to each continent. It follows these steps\+:
+\begin{DoxyEnumerate}
+\item {\bfseries{Weight Initialization\+:}}
+\begin{DoxyItemize}
+\item Creates a vector named {\ttfamily weights} to store weights for the distribution.
+\item Iterates through the {\ttfamily Cont\+Weight} map (which maps continents to vector of rivers)\+:
+\begin{DoxyItemize}
+\item Pushes a weight of 1 (representing equal probability) for each continent into the {\ttfamily weights} vector.
+\end{DoxyItemize}
+\end{DoxyItemize}
+\item {\bfseries{Distribution Creation\+:}}
+\begin{DoxyItemize}
+\item Constructs a {\ttfamily std\+::discrete\+\_\+distribution} object named {\ttfamily dis}, using iterators to the beginning and end of the {\ttfamily weights} vector as arguments. This creates a distribution that represents the equal probabilities for each continent.
+\end{DoxyItemize}
+\item {\bfseries{Distribution Return\+:}}
+\begin{DoxyItemize}
+\item Returns the created {\ttfamily dis} object, which can be used for random sampling of continents with equal weights.
+\end{DoxyItemize}
+\end{DoxyEnumerate}
+
+\begin{DoxyReturn}{Returns}
+std\+::discrete\+\_\+distribution$<$double$>$ A discrete distribution with equal weights for continents Time Complexity\+: O(n) -\/ Linear time. 
+\end{DoxyReturn}
+\Hypertarget{class_rivers_a0a06e6e52dbfdf5d157aadb16cf002a9}\label{class_rivers_a0a06e6e52dbfdf5d157aadb16cf002a9} 
+\index{Rivers@{Rivers}!modeThree@{modeThree}}
+\index{modeThree@{modeThree}!Rivers@{Rivers}}
+\doxysubsubsection{\texorpdfstring{modeThree()}{modeThree()}}
+{\footnotesize\ttfamily std\+::discrete\+\_\+distribution Rivers\+::mode\+Three (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Creates a discrete distribution for mode 3, favoring the previously used continent. 
+
+This function generates a discrete distribution that assigns a higher weight to the continent used in the previous round and distributes the remaining weight (50\%) equally among other continents. It follows these steps\+:
+\begin{DoxyEnumerate}
+\item {\bfseries{Weight Initialization\+:}}
+\begin{DoxyItemize}
+\item Creates a vector named {\ttfamily weights} to store weights for the distribution.
+\item Iterates through the {\ttfamily Cont\+Weight} map (which maps continents to vector of rivers)\+:
+\item If the continent\textquotesingle{}s name ({\ttfamily i.\+first}) matches the {\ttfamily used\+Continent} member variable (continent used in the previous round)\+:
+\item Pushes a weight of 50 into the {\ttfamily weights} vector, giving it higher probability.
+\item Otherwise, calculates a weight based on the total number of continents ({\ttfamily Cont\+Weight.\+size()})\+:
+\item The weight is calculated as {\ttfamily 50 / (Cont\+Weight.\+size() -\/ 1)}, effectively distributing the remaining 50\% weight equally among all other continents.
+\end{DoxyItemize}
+\item {\bfseries{Distribution Creation\+:}}
+\begin{DoxyItemize}
+\item Constructs a {\ttfamily std\+::discrete\+\_\+distribution} object named {\ttfamily dis}, using iterators to the beginning and end of the {\ttfamily weights} vector as arguments. This creates a distribution where the previously used continent has a higher chance of being selected.
+\end{DoxyItemize}
+\item {\bfseries{Distribution Return\+:}}
+\begin{DoxyItemize}
+\item Returns the created {\ttfamily dis} object, which can be used for random sampling of continents with biased weights favoring the previously used one.
+\end{DoxyItemize}
+\end{DoxyEnumerate}
+
+\begin{DoxyReturn}{Returns}
+std\+::discrete\+\_\+distribution$<$double$>$ A discrete distribution favoring the previously used continent
+\end{DoxyReturn}
+Time Complexity\+: O(n) -\/ Linear time. \Hypertarget{class_rivers_adb782828161fd57351418a5b3b56fe63}\label{class_rivers_adb782828161fd57351418a5b3b56fe63} 
+\index{Rivers@{Rivers}!modeTwo@{modeTwo}}
+\index{modeTwo@{modeTwo}!Rivers@{Rivers}}
+\doxysubsubsection{\texorpdfstring{modeTwo()}{modeTwo()}}
+{\footnotesize\ttfamily std\+::discrete\+\_\+distribution Rivers\+::mode\+Two (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Creates a discrete distribution for mode 2, where individual rivers have equal weights. 
+
+This function generates a discrete distribution that assigns equal weights to each individual river. It follows these steps\+:
+\begin{DoxyEnumerate}
+\item {\bfseries{Weight Initialization\+:}}
+\begin{DoxyItemize}
+\item Creates a vector named {\ttfamily weights} to store weights for the distribution.
+\item Iterates through the {\ttfamily Cont\+Weight} map (which maps continents to vector of rivers)\+:
+\item Pushes the size of the continent\textquotesingle{}s river vector ({\ttfamily i.\+second.\+size()}) into the {\ttfamily weights} vector. This assigns a weight equal to the number of rivers in each continent.
+\end{DoxyItemize}
+\item {\bfseries{Distribution Creation\+:}}
+\begin{DoxyItemize}
+\item Constructs a {\ttfamily std\+::discrete\+\_\+distribution} object named {\ttfamily dis}, using iterators to the beginning and end of the {\ttfamily weights} vector as arguments. This creates a distribution where each river (represented by its position in the combined river list) has an equal probability of being chosen.
+\end{DoxyItemize}
+\item {\bfseries{Distribution Return\+:}}
+\begin{DoxyItemize}
+\item Returns the created {\ttfamily dis} object, which can be used for random sampling of rivers with equal weights.
+\end{DoxyItemize}
+\end{DoxyEnumerate}
+
+\begin{DoxyReturn}{Returns}
+std\+::discrete\+\_\+distribution$<$double$>$ A discrete distribution with equal weights for individual rivers
+\end{DoxyReturn}
+Time Complexity\+: O(n) -\/ Linear time. \Hypertarget{class_rivers_a8027e0f5dcd46892308ebe1790f55575}\label{class_rivers_a8027e0f5dcd46892308ebe1790f55575} 
+\index{Rivers@{Rivers}!newRandomRiver@{newRandomRiver}}
+\index{newRandomRiver@{newRandomRiver}!Rivers@{Rivers}}
+\doxysubsubsection{\texorpdfstring{newRandomRiver()}{newRandomRiver()}}
+{\footnotesize\ttfamily std\+::string Rivers\+::new\+Random\+River (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Generates a random river name based on the selected mode. 
+
+This function selects a random river name following these steps\+:
+\begin{DoxyEnumerate}
+\item {\bfseries{Distribution Selection\+:}}
+\begin{DoxyItemize}
+\item Declares a {\ttfamily std\+::discrete\+\_\+distribution\texorpdfstring{$<$}{<}\texorpdfstring{$>$}{>}} object named {\ttfamily dis}.
+\item Uses a {\ttfamily switch} statement based on the {\ttfamily my\+Mode} member variable to determine the appropriate weight distribution\+:
+\item If {\ttfamily my\+Mode} is 1 (equal weights for continents)\+:
+\begin{DoxyItemize}
+\item Calls the {\ttfamily mode\+One} function to create a distribution with equal weights for continents and assigns it to {\ttfamily dis}.
+\end{DoxyItemize}
+\item If {\ttfamily my\+Mode} is 2 (equal weights for rivers)\+:
+\begin{DoxyItemize}
+\item Calls the {\ttfamily mode\+Two} function to create a distribution with equal weights for individual rivers and assigns it to {\ttfamily dis}.
+\end{DoxyItemize}
+\item If {\ttfamily my\+Mode} is 3 (favor previously used continent)\+:
+\begin{DoxyItemize}
+\item Checks the {\ttfamily first\+Generation} flag\+:
+\begin{DoxyItemize}
+\item If {\ttfamily first\+Generation} is true (first time calling this function), it calls the {\ttfamily mode\+Two} function (equal weights for rivers) to ensure initial random selection across continents.
+\item Otherwise, it calls the {\ttfamily mode\+Three} function to create a distribution favoring the previously used continent and assigns it to {\ttfamily dis}.
+\end{DoxyItemize}
+\end{DoxyItemize}
+\end{DoxyItemize}
+\item {\bfseries{Random Continent Selection\+:}}
+\begin{DoxyItemize}
+\item Generates a random number using the chosen {\ttfamily dis} object and the Mersenne Twister random number generator ({\ttfamily random\+Gen}). This selects a continent based on the weight distribution.
+\item Creates an iterator {\ttfamily it} pointing to the beginning of the {\ttfamily Cont\+Weight} map.
+\item Uses {\ttfamily std\+::advance} to move the iterator {\ttfamily it} forward by the number of positions indicated by the random number ({\ttfamily rnd}). This effectively positions the iterator to the continent chosen based on the weight distribution.
+\end{DoxyItemize}
+\item {\bfseries{Random River Selection Within Continent\+:}}
+\begin{DoxyItemize}
+\item Creates a {\ttfamily std\+::uniform\+\_\+int\+\_\+distribution\texorpdfstring{$<$}{<}\texorpdfstring{$>$}{>}} object named {\ttfamily dist} to generate a random integer within the range of 0 to the size of the chosen continent\textquotesingle{}s river vector minus 1 (to account for zero-\/based indexing).
+\item Generates a random number using the {\ttfamily dist} object and the Mersenne Twister random number generator. This selects a specific river name from the chosen continent\textquotesingle{}s river vector.
+\end{DoxyItemize}
+\item {\bfseries{Updating Tracking Variables\+:}}
+\begin{DoxyItemize}
+\item Assigns the chosen continent\textquotesingle{}s name to the {\ttfamily used\+Continent} member variable for tracking purposes in mode 3.
+\item Sets the {\ttfamily first\+Generation} flag to false to indicate that the initial random selection (if applicable in mode 3) has been performed.
+\end{DoxyItemize}
+\item {\bfseries{Returning River Name\+:}}
+\begin{DoxyItemize}
+\item Returns the randomly selected river name from the chosen continent\textquotesingle{}s river vector using the iterator {\ttfamily it} and the random number ({\ttfamily num}) for indexing.
+\end{DoxyItemize}
+\end{DoxyEnumerate}
+
+\begin{DoxyReturn}{Returns}
+std\+::string A randomly selected river name
+\end{DoxyReturn}
+Time Complexity\+: O(n) -\/ Linear time. \Hypertarget{class_rivers_a31cf9ca5a6c11c45b3927a3fe81a93d9}\label{class_rivers_a31cf9ca5a6c11c45b3927a3fe81a93d9} 
+\index{Rivers@{Rivers}!sameContinent@{sameContinent}}
+\index{sameContinent@{sameContinent}!Rivers@{Rivers}}
+\doxysubsubsection{\texorpdfstring{sameContinent()}{sameContinent()}}
+{\footnotesize\ttfamily bool Rivers\+::same\+Continent (\begin{DoxyParamCaption}\item[{std\+::string}]{river1,  }\item[{std\+::string}]{river2 }\end{DoxyParamCaption})}
+
+
+
+Checks if two rivers are located on the same continent. 
+
+This function determines whether two rivers belong to the same continent using the internal data structures\+:
+\begin{DoxyEnumerate}
+\item {\bfseries{Continent Lookups\+:}}
+\begin{DoxyItemize}
+\item Calls the {\ttfamily get\+Continent} function for each river name ({\ttfamily r1} and {\ttfamily r2}) to retrieve their corresponding continents.
+\item The {\ttfamily get\+Continent} function allows the user to search the {\ttfamily rivers} map to find the continent associated with each river name.
+\end{DoxyItemize}
+\item {\bfseries{Continent Comparison\+:}}
+\begin{DoxyItemize}
+\item Checks if either continent lookup resulted in an empty string ("{}"{}). This indicates an error or data inconsistency, and the function returns {\ttfamily false}.
+\item If both continent lookups were successful, it compares the retrieved continent names using the inequality operator ({\ttfamily !=}).
+\item If the continent names are different, the rivers are on different continents, and the function returns {\ttfamily false}.
+\end{DoxyItemize}
+\item {\bfseries{Same Continent Confirmation\+:}}
+\begin{DoxyItemize}
+\item If both continent lookups were successful and the names match, the rivers are on the same continent, and the function returns {\ttfamily true}.
+\end{DoxyItemize}
+\end{DoxyEnumerate}
+
+
+\begin{DoxyParams}{Parameters}
+{\em r1} & The name of the first river \\
+\hline
+{\em r2} & The name of the second river \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool True if the rivers are on the same continent, false otherwise
+\end{DoxyReturn}
+Time Complexity\+: O(1) -\/ Constant time. \Hypertarget{class_rivers_a674d0c5f0d0f28a52ccbf20a1e87d5bc}\label{class_rivers_a674d0c5f0d0f28a52ccbf20a1e87d5bc} 
+\index{Rivers@{Rivers}!setMode@{setMode}}
+\index{setMode@{setMode}!Rivers@{Rivers}}
+\doxysubsubsection{\texorpdfstring{setMode()}{setMode()}}
+{\footnotesize\ttfamily void Rivers\+::set\+Mode (\begin{DoxyParamCaption}\item[{int}]{mode }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets the operating mode for random river generation. 
+
+This function allows the user to select the mode that determines how continents and rivers are weighted during random river generation.
+
+
+\begin{DoxyParams}{Parameters}
+{\em mode} & An integer representing the desired mode\+:
+\begin{DoxyItemize}
+\item 1\+: Equal weights for continents (each continent has an equal chance of being selected).
+\item 2\+: Equal weights for individual rivers (each river has an equal chance of being selected, regardless of continent).
+\item 3\+: Favor previously used continent (the continent used in the previous generation has a 50\% probability of being generated, and the remaining weight is distributed equally among other continents).
+\end{DoxyItemize}\\
+\hline
+\end{DoxyParams}
+Time Complexity\+: O(1) -\/ Constant time. 
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_rivers_adba405f446b9e7477ee78a9d11cf758d}\label{class_rivers_adba405f446b9e7477ee78a9d11cf758d} 
+\index{Rivers@{Rivers}!myMode@{myMode}}
+\index{myMode@{myMode}!Rivers@{Rivers}}
+\doxysubsubsection{\texorpdfstring{myMode}{myMode}}
+{\footnotesize\ttfamily int Rivers\+::my\+Mode}
+
+
+
+Integer storing the user-\/selected mode (1\+: equal weights for continents, 2\+: equal weights for rivers, 3\+: favor previously used continent). 
+
+This {\ttfamily int} variable {\ttfamily my\+Mode} holds the current operating mode chosen by the user, governing how continents and rivers are weighted for random selection. \Hypertarget{class_rivers_a748bd7dbab1a57b0c43a13ba8a2e8089}\label{class_rivers_a748bd7dbab1a57b0c43a13ba8a2e8089} 
+\index{Rivers@{Rivers}!rivers@{rivers}}
+\index{rivers@{rivers}!Rivers@{Rivers}}
+\doxysubsubsection{\texorpdfstring{rivers}{rivers}}
+{\footnotesize\ttfamily std\+::map$<$std\+::string, std\+::string$>$ Rivers\+::rivers}
+
+
+
+Map storing associations between river names and their corresponding continents. 
+
+This {\ttfamily std\+::map} efficiently retrieves the continent for a given river name using the river name as the key and the continent name as the value. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+2024\+Project/\mbox{\hyperlink{_rivers_8h}{Rivers.\+h}}\item 
+2024\+Project/Rivers.\+cpp\end{DoxyCompactItemize}

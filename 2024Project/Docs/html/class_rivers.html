@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.10.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>CO5265 - Assignment 3: Rivers Class Reference</title>
+<title>CO5227 - Assignment 3: Rivers Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -24,9 +24,9 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Screenshot 2024-01-15 135341.png"/></td>
   <td id="projectalign">
-   <div id="projectname">CO5265 - Assignment 3
+   <div id="projectname">CO5227 - Assignment 3
    </div>
-   <div id="projectbrief">Documentation for River guessing game</div>
+   <div id="projectbrief">River guessing game</div>
   </td>
  </tr>
  </tbody>
@@ -75,6 +75,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="class_rivers-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Rivers Class Reference</div></div>
 </div><!--header-->
@@ -117,6 +118,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a674d0c5f0d0f28a52ccbf20a1e87d5bc" id="r_a674d0c5f0d0f28a52ccbf20a1e87d5bc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a674d0c5f0d0f28a52ccbf20a1e87d5bc">setMode</a> (int mode)</td></tr>
 <tr class="memdesc:a674d0c5f0d0f28a52ccbf20a1e87d5bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the operating mode for random river generation.  <br /></td></tr>
 <tr class="separator:a674d0c5f0d0f28a52ccbf20a1e87d5bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae543ab9032f06faa8664967c804d7f55" id="r_ae543ab9032f06faa8664967c804d7f55"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae543ab9032f06faa8664967c804d7f55">getMode</a> ()</td></tr>
+<tr class="memdesc:ae543ab9032f06faa8664967c804d7f55"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current mode.  <br /></td></tr>
+<tr class="separator:ae543ab9032f06faa8664967c804d7f55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:adba405f446b9e7477ee78a9d11cf758d" id="r_adba405f446b9e7477ee78a9d11cf758d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adba405f446b9e7477ee78a9d11cf758d">myMode</a></td></tr>
+<tr class="memdesc:adba405f446b9e7477ee78a9d11cf758d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Integer storing the user-selected mode (1: equal weights for continents, 2: equal weights for rivers, 3: favor previously used continent).  <br /></td></tr>
+<tr class="separator:adba405f446b9e7477ee78a9d11cf758d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a748bd7dbab1a57b0c43a13ba8a2e8089" id="r_a748bd7dbab1a57b0c43a13ba8a2e8089"><td class="memItemLeft" align="right" valign="top">std::map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a748bd7dbab1a57b0c43a13ba8a2e8089">rivers</a></td></tr>
+<tr class="memdesc:a748bd7dbab1a57b0c43a13ba8a2e8089"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map storing associations between river names and their corresponding continents.  <br /></td></tr>
+<tr class="separator:a748bd7dbab1a57b0c43a13ba8a2e8089"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class representing river information and functionalities for random river name generation. </p>
@@ -263,6 +276,36 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>std::string The continent name associated with the river (or an empty string if not found)</dd></dl>
+<p>Time Complexity: O(1) - Constant time. </p>
+
+</div>
+</div>
+<a id="ae543ab9032f06faa8664967c804d7f55" name="ae543ab9032f06faa8664967c804d7f55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae543ab9032f06faa8664967c804d7f55">&#9670;&#160;</a></span>getMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Rivers::getMode </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the current mode. </p>
+<p>This function returns the value of the <code>myMode</code> variable, which represents the current mode.</p>
+<dl class="section return"><dt>Returns</dt><dd>The current mode value.</dd></dl>
 <p>Time Complexity: O(1) - Constant time. </p>
 
 </div>
@@ -584,9 +627,44 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="adba405f446b9e7477ee78a9d11cf758d" name="adba405f446b9e7477ee78a9d11cf758d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adba405f446b9e7477ee78a9d11cf758d">&#9670;&#160;</a></span>myMode</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Rivers::myMode</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Integer storing the user-selected mode (1: equal weights for continents, 2: equal weights for rivers, 3: favor previously used continent). </p>
+<p>This <code>int</code> variable <code>myMode</code> holds the current operating mode chosen by the user, governing how continents and rivers are weighted for random selection. </p>
+
+</div>
+</div>
+<a id="a748bd7dbab1a57b0c43a13ba8a2e8089" name="a748bd7dbab1a57b0c43a13ba8a2e8089"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a748bd7dbab1a57b0c43a13ba8a2e8089">&#9670;&#160;</a></span>rivers</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::map&lt;std::string, std::string&gt; Rivers::rivers</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Map storing associations between river names and their corresponding continents. </p>
+<p>This <code>std::map</code> efficiently retrieves the continent for a given river name using the river name as the key and the continent name as the value. </p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li><a class="el" href="_rivers_8h_source.html">Rivers.h</a></li>
-<li><b>Rivers.cpp</b></li>
+<li>2024Project/<a class="el" href="_rivers_8h_source.html">Rivers.h</a></li>
+<li>2024Project/<b>Rivers.cpp</b></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

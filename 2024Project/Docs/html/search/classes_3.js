@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['renamer_0',['Renamer',['../struct_renamer.html',1,'']]],
-  ['rivers_1',['Rivers',['../class_rivers.html',1,'']]],
-  ['rivertests_2',['RiverTests',['../class_river_tests.html',1,'']]]
+  ['game_0',['Game',['../class_game.html',1,'']]],
+  ['gametests_1',['GameTests',['../class_game_tests.html',1,'']]]
 ];

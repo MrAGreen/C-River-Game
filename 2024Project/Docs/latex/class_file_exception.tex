@@ -1,0 +1,60 @@
+\doxysection{File\+Exception Class Reference}
+\hypertarget{class_file_exception}{}\label{class_file_exception}\index{FileException@{FileException}}
+
+
+Custom exception for file-\/related errors.  
+
+
+Inheritance diagram for File\+Exception\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_file_exception}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_file_exception_a5fce8d85f929477196c6fdfbc0956ca8}{File\+Exception}} (const std\+::vector$<$ std\+::string $>$ \&filenames)
+\begin{DoxyCompactList}\small\item\em Constructor for \doxylink{class_file_exception}{File\+Exception}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Custom exception for file-\/related errors. 
+
+This exception is thrown when there are issues with files, such as missing files or empty files. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_file_exception_a5fce8d85f929477196c6fdfbc0956ca8}\label{class_file_exception_a5fce8d85f929477196c6fdfbc0956ca8} 
+\index{FileException@{FileException}!FileException@{FileException}}
+\index{FileException@{FileException}!FileException@{FileException}}
+\doxysubsubsection{\texorpdfstring{FileException()}{FileException()}}
+{\footnotesize\ttfamily File\+Exception\+::\+File\+Exception (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ std\+::string $>$ \&}]{filenames }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor for \doxylink{class_file_exception}{File\+Exception}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filenames} & A vector of filenames that caused the exception.\\
+\hline
+\end{DoxyParams}
+The constructor checks each filename in the vector\+:
+\begin{DoxyItemize}
+\item If the file does not exist, it prints an error message and exits.
+\item If the file is empty, it prints an error message and exits.
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+The adapted code is based on \href{https://en.cppreference.com/w/cpp/filesystem/exists}{\texttt{ https\+://en.\+cppreference.\+com/w/cpp/filesystem/exists}}.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em filenames} & A vector of filenames to check. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+2024\+Project/File\+Exceptions.\+cpp\end{DoxyCompactItemize}

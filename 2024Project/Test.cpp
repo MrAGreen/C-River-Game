@@ -1,11 +1,8 @@
 #define BOOST_TEST_MAIN
-#include <boost/test/included/unit_test.hpp>
-#include <boost/test/data/test_case.hpp>
 #include "Game.h"
 #include "Rivers.h"
-#include <boost/random/discrete_distribution.hpp>
-#include "boost/generator_iterator.hpp"
-#include "boost/random.hpp"
+#include <boost/test/included/unit_test.hpp>
+#include <boost/test/data/test_case.hpp>
 namespace bdata = boost::unit_test::data;
 
 bool SortDurationCopy(std::pair<double, std::string> x, std::pair<double, std::string> y)
@@ -20,27 +17,16 @@ struct RiversFixture {
     std::mt19937_64 randomGen;
     std::vector<double> weights;
 
-    std::vector<std::string> files {"Europe.txt","Asia.txt","Africa.txt","South America.txt"};
+    std::vector<std::string> files{ "Europe.txt","Asia.txt","Africa.txt","South America.txt" };
     void setWeight() {
         for (auto& i : files)
         {
             weights.push_back(1);
         }
     }
-    
 };
 
 BOOST_FIXTURE_TEST_SUITE(RiversTests, RiversFixture);
-
-BOOST_AUTO_TEST_CASE(testFileRead) {
-    std::mutex mutex;
-    std::vector<std::string> testFiles;
-    for (auto& f : testFiles) {
-        riverFiles.fileRead(f, mutex);
-        BOOST_CHECK(!f.empty());
-    }
-}
-    
 
 BOOST_AUTO_TEST_CASE(testSameContinent) {
 
@@ -49,7 +35,7 @@ BOOST_AUTO_TEST_CASE(testSameContinent) {
     //Test if two african rivers are the same continent but one is lowercase - should return false
     BOOST_CHECK(!riverFiles.sameContinent("zambezi", "Chari"));
     //Test if one river is not in my files - should return false
-    BOOST_CHECK(!riverFiles.sameContinent("", "Chaget jri"));   
+    BOOST_CHECK(!riverFiles.sameContinent("", "Chaget jri"));
     //Test if one river is from africa, and one is from europe - should return false
     BOOST_CHECK(!riverFiles.sameContinent("Zambezi", "Danube"));
 }
@@ -74,21 +60,35 @@ BOOST_AUTO_TEST_CASE(testGetScore) {
     Rivers r(riverFiles);
     Game myGame(r);
 
-
     myGame.incrementScore();
     int num = myGame.getScore();
     BOOST_CHECK_EQUAL(num, 1);
 }
 
-
 BOOST_AUTO_TEST_CASE(testGetTotal) {
     Rivers r(riverFiles);
     Game myGame(r);
 
-
     myGame.incrementTotal();
     int num = myGame.getTotal();
     BOOST_CHECK_EQUAL(num, 1);
+}
+
+BOOST_AUTO_TEST_CASE(testReset) {
+    Rivers r(riverFiles);
+    Game myGame(r);
+    //set previous working tests to add 1 to each.
+    myGame.incrementScore();
+    myGame.incrementTotal();
+
+    myGame.reset();
+    //if reset worked variables should be 0 now and add up to 0 instead of 2.
+    int num1 = myGame.getTotal();
+    int num2 = myGame.getScore();
+    
+    int result = num1 + num2;
+
+    BOOST_CHECK_EQUAL(result, 0);
 }
 
 BOOST_AUTO_TEST_CASE(testGetFastest) {
@@ -118,37 +118,50 @@ BOOST_AUTO_TEST_CASE(testSortFunction) {
     BOOST_CHECK(!SortDurationCopy(testPair1, testPair2));
 }
 
+BOOST_AUTO_TEST_CASE(testFileRead) {
+    std::mutex mutex;
+    std::vector<std::string> testFiles;
+    for (auto& f : testFiles) {
+        riverFiles.fileRead(f, mutex);
+        BOOST_CHECK(!f.empty());
+    }
+}
 
-//BOOST_AUTO_TEST_CASE(testModeOne) {
-//    std::discrete_distribution dis = riverFiles.modeOne();
-//    boost::random::discrete_distribution<> dist(weights.begin(), weights.end());
-//    BOOST_CHECK_CLOSE(dis, dist, 0.1);
-//}
+//Parameterised Test//
+
+BOOST_DATA_TEST_CASE(getCont, bdata::make({ "Nile", "nile", "Rhine", "Dee", "Zambezi", "Indus", "", "Amazon" }), array) {
+
+    std::map<std::string, std::string> rivers = {
+     {"Nile", "Africa"},
+     {"nile", ""},
+     {"Rhine", "Europe"},
+     {"Dee", ""},
+     {"Zambezi", "Africa"},
+     {"Indus", "Asia"},
+     {"", ""},
+     {"Amazon", "South America"},
+    };
+
+    BOOST_CHECK_EQUAL(riverFiles.getContinent(array), rivers[array]);
+}
+
+//Random Test//
+
+BOOST_AUTO_TEST_CASE(randomRiver) {
+
+    std::vector<std::string> testVec;
+
+    for (int i = 0; i < 94; ++i) {
+        std::string riv = riverFiles.getRandomRiver();
+        BOOST_CHECK(!riv.empty());
+        BOOST_CHECK(riv != "");
+        testVec.push_back(riv);
+
+    };
+    //should get 94 rivers from the 4 files we've been given
+
+    BOOST_CHECK(testVec.size() == 94);
+
+}
 
 BOOST_AUTO_TEST_SUITE_END()
-
-//BOOST_DATA_TEST_CASE(Game::validInput(), bdata::make(inputs)){
-// std::string inputs[] = { "1", "22", "300", "as", "a", "q", "///" };
-
-//    
-//    std::string test;
-//
-//    Game::validInput(inputs[0]);
-//
-//    if (inputs[0]) {
-//        test = "fail";
-//    }
-//
-//    BOOST_CHECK_EQUAL(test, "fail")
-//
-//}
-
-//std::discrete_distribution<> Rivers::modeOne() {
-//std::vector<double> weights;
-//for (auto& i : ContWeight)
-//{
-//    weights.push_back(1);
-//}
-//std::discrete_distribution<> dis(weights.begin(), weights.end());
-//return dis;
-//}
